@@ -7,7 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 
 // Replace this with your actual Mapbox public token
-const MAPBOX_TOKEN = 'pk.eyJ1IjoieW91cnVzZXJuYW1lIiwiYSI6InlvdXItdG9rZW4ifQ...';
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN as string;
+
+// Base URL for weather app
+const WEATHER_APP_LINK = import.meta.env.VITE_WEATHER_APP_LINK as string;
 
 interface SelectedLocation {
   lat: number;
@@ -25,9 +28,6 @@ const MapComponent: React.FC = () => {
   // Default map center and zoom
   const defaultCenter: [number, number] = [0, 20]; // Center on world
   const defaultZoom = 2;
-  
-  // Base URL for weather app
-  const BASE_URL = 'https://my-weather-app.com';
 
   useEffect(() => {
     if (!mapContainer.current || !MAPBOX_TOKEN) return;
@@ -78,7 +78,7 @@ const MapComponent: React.FC = () => {
       .addTo(map.current!);
 
     // Open weather app in new tab
-    const weatherUrl = `${BASE_URL}/weather?long=${lng.toFixed(6)}&lat=${lat.toFixed(6)}`;
+    const weatherUrl = `${WEATHER_APP_LINK}/weather?lat=${lat.toFixed(6)}&long=${lng.toFixed(6)}`;
     window.open(weatherUrl, '_blank');
   };
 
