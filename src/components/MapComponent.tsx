@@ -6,16 +6,15 @@ import { MapPin, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 
-interface MapComponentProps {
-  mapboxToken: string;
-}
+// Replace this with your actual Mapbox public token
+const MAPBOX_TOKEN = 'pk.eyJ1IjoieW91cnVzZXJuYW1lIiwiYSI6InlvdXItdG9rZW4ifQ...';
 
 interface SelectedLocation {
   lat: number;
   lng: number;
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ mapboxToken }) => {
+const MapComponent: React.FC = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const marker = useRef<mapboxgl.Marker | null>(null);
@@ -31,10 +30,10 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapboxToken }) => {
   const BASE_URL = 'https://my-weather-app.com';
 
   useEffect(() => {
-    if (!mapContainer.current || !mapboxToken) return;
+    if (!mapContainer.current || !MAPBOX_TOKEN) return;
 
     // Set Mapbox access token
-    mapboxgl.accessToken = mapboxToken;
+    mapboxgl.accessToken = MAPBOX_TOKEN;
     
     // Initialize map
     map.current = new mapboxgl.Map({
@@ -60,7 +59,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapboxToken }) => {
     return () => {
       map.current?.remove();
     };
-  }, [mapboxToken, isDarkTheme]);
+  }, [isDarkTheme]);
 
   const handleLocationSelect = (lat: number, lng: number) => {
     const location = { lat: Number(lat.toFixed(6)), lng: Number(lng.toFixed(6)) };
